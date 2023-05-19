@@ -137,6 +137,21 @@ app.MapDelete("/passwordmngrs/{id}", async (apiDBContext db, int id) =>
     return Results.NotFound();
 });
 
+/*app.MapDelete("/passwordmngrs/{id}", async (apiDBContext db, int id) =>
+{
+    if (await db.passwordmngrs.FindAsync(id) is Passwordmngr passwordmngr)
+    {
+        db.passwordmngrs.Remove(passwordmngr);
+
+        // Call the stored procedure method
+        await StoredProcedures.ExecuteDeletePasswordmngrStoredProcedure(db, id);
+
+        await db.SaveChangesAsync();
+        return Results.Ok(passwordmngr);
+    }
+    return Results.NotFound();
+});*/
+
 app.MapPost("/signup", async (apiDBContext db, IMapper mapper, UserManager <ApplicationUser> userManager, SignUpDTO userDTO) =>
 {
     var user = mapper.Map<ApplicationUser>(userDTO);

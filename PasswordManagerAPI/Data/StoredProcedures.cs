@@ -17,6 +17,10 @@ namespace PasswordManagerAPI
                 new SqlParameter("@Description", description)
             );
         }
+        public static async Task ExecuteDeletePasswordmngrStoredProcedure(apiDBContext context, int id)
+        {
+            await context.Database.ExecuteSqlInterpolatedAsync($"EXEC DeletePasswordmngr {id}");
+        }
 
         // Define more stored procedure methods as needed
     }

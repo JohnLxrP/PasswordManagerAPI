@@ -11,10 +11,12 @@ using PasswordManagerAPI.Data;
 using PasswordManagerAPI.DTO;
 using PasswordManagerAPI.Model;
 using PasswordManagerAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<apiDBContext>(opt => opt.UseInMemoryDatabase("pwDB"));
+//builder.Services.AddDbContext<apiDBContext>(opt => opt.UseInMemoryDatabase("pwDB"));
+builder.Services.AddDbContext<apiDBContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<apiDBContext>()

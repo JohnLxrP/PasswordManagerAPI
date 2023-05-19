@@ -195,7 +195,7 @@ app.MapPost("/login", async (apiDBContext db,
 
 app.UseCors(MyAllowSpecificOrigins);
 // has a valid api key if it is valid then allow to access the endpoint if not deny
-//app.UseMiddleware<ApiKeyAuthMiddleware>();
+app.UseMiddleware<ApiKeyAuthMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.Run();

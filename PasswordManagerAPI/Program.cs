@@ -12,6 +12,7 @@ using PasswordManagerAPI.DTO;
 using PasswordManagerAPI.Model;
 using PasswordManagerAPI.Models;
 using Microsoft.AspNetCore.Authorization;
+using PasswordManagerAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -97,10 +98,21 @@ app.MapGet("/passwordmngrs/{id}", async (apiDBContext db, int id) =>
             await db.passwordmngrs.FindAsync(id)
                 is Passwordmngr passwordmngr ? Results.Ok(passwordmngr) : Results.NotFound());
 
+/*app.MapPost("/passwordmngrs", async (apiDBContext db, Passwordmngr passwordmngr) =>
+{
+    db.passwordmngrs.Add(passwordmngr);
+    await db.SaveChangesAsync();
+    return Results.Created($"/tpasswordmngrs/{passwordmngr.Id}", passwordmngr);
+});*/
+
 app.MapPost("/passwordmngrs", async (apiDBContext db, Passwordmngr passwordmngr) =>
 {
     db.passwordmngrs.Add(passwordmngr);
     await db.SaveChangesAsync();
+
+    // Call the stored procedure method
+    await StoredProcedures.ExecuteInsertPasswordmngrStoredProcedure(db, passwordmngr.UserId, passwordmngr.Accountr, passwordmngr.Passwordr, passwordmngr.Description);
+
     return Results.Created($"/tpasswordmngrs/{passwordmngr.Id}", passwordmngr);
 });
 

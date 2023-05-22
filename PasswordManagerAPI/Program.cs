@@ -124,7 +124,7 @@ app.MapPut("/passwordmngrs/{id}", async (apiDBContext db, Passwordmngr passwordm
     oldPasswordmngr.Accountr = passwordmngr.Accountr;
     await db.SaveChangesAsync();
     return Results.NoContent();
-}).RequireAuthorization();
+});
 
 app.MapDelete("/passwordmngrs/{id}", async (apiDBContext db, int id) =>
 {
@@ -195,6 +195,9 @@ app.MapPost("/login", async (apiDBContext db,
 
 app.UseCors(MyAllowSpecificOrigins);
 // has a valid api key if it is valid then allow to access the endpoint if not deny
+
+
+
 app.UseMiddleware<ApiKeyAuthMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
